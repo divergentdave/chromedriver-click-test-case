@@ -15,7 +15,7 @@ def main():
     capabilities["loggingPrefs"] = {"browser": "INFO"}
     capabilities["goog:loggingPrefs"] = {"browser": "INFO"}
     driver = webdriver.Remote(
-            "http://test-case-selenium:4444/wd/hub",
+        "http://test-case-selenium:4444/wd/hub",
         desired_capabilities=capabilities
     )
 
