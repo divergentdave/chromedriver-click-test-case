@@ -19,50 +19,54 @@ def main():
         desired_capabilities=capabilities
     )
 
-    old_page = driver.find_element_by_tag_name("html")
-    driver.get("http://test-case-web:8000/?page=1")
-    WebDriverWait(driver, SELENIUM_TIMEOUT).until(
-        EC.staleness_of(old_page)
-    )
-
-    profile_dropdown = driver.find_element_by_css_selector("a.dropdown-toggle")
-    dropdown_menu = driver.find_element_by_css_selector("ul.dropdown-menu")
-    profile_dropdown.click()
-    WebDriverWait(driver, SELENIUM_TIMEOUT).until(
-        EC.visibility_of(dropdown_menu)
-    )
-    favorites = driver.find_element_by_link_text("Favorites")
-    old_page = driver.find_element_by_tag_name("html")
-    favorites.click()
-    WebDriverWait(driver, SELENIUM_TIMEOUT).until(
-        EC.staleness_of(old_page)
-    )
-
-    WebDriverWait(driver, SELENIUM_TIMEOUT).until(
-        lambda driver: driver.execute_script(
-            "return $._data("
-            "document.querySelector(\".edit-favorite-trigger\"), "
-            "\"events\").click.length"
+    try:
+        old_page = driver.find_element_by_tag_name("html")
+        driver.get("http://test-case-web:8000/?page=1")
+        WebDriverWait(driver, SELENIUM_TIMEOUT).until(
+            EC.staleness_of(old_page)
         )
-    )
 
-    edit_link = driver.find_element_by_link_text("Edit / Delete")
-    div = edit_link.find_element(By.XPATH, "./parent::div")
-    print("onclick: {}".format(div.get_attribute("onclick")))
-    edit_link.click()
-    time.sleep(1)
-    log_entries = driver.get_log("browser")
-    for entry in log_entries:
-        print("console.log message: {}".format(entry["message"]))
-    if not log_entries:
-        print("no console.log messages")
+        profile_dropdown = driver.find_element_by_css_selector(
+            "a.dropdown-toggle"
+        )
+        dropdown_menu = driver.find_element_by_css_selector("ul.dropdown-menu")
+        profile_dropdown.click()
+        WebDriverWait(driver, SELENIUM_TIMEOUT).until(
+            EC.visibility_of(dropdown_menu)
+        )
+        favorites = driver.find_element_by_link_text("Favorites")
+        old_page = driver.find_element_by_tag_name("html")
+        favorites.click()
+        WebDriverWait(driver, SELENIUM_TIMEOUT).until(
+            EC.staleness_of(old_page)
+        )
 
-    modal = driver.find_element_by_id("modal-save-favorite")
-    WebDriverWait(driver, SELENIUM_TIMEOUT).until(
-        EC.visibility_of(modal)
-    )
+        WebDriverWait(driver, SELENIUM_TIMEOUT).until(
+            lambda driver: driver.execute_script(
+                "return $._data("
+                "document.querySelector(\".edit-favorite-trigger\"), "
+                "\"events\").click.length"
+            )
+        )
 
-    driver.quit()
+        edit_link = driver.find_element_by_link_text("Edit / Delete")
+        div = edit_link.find_element(By.XPATH, "./parent::div")
+        print("onclick: {}".format(div.get_attribute("onclick")))
+        edit_link.click()
+        time.sleep(1)
+        log_entries = driver.get_log("browser")
+        for entry in log_entries:
+            print("console.log message: {}".format(entry["message"]))
+        if not log_entries:
+            print("no console.log messages")
+
+        modal = driver.find_element_by_id("modal-save-favorite")
+        WebDriverWait(driver, SELENIUM_TIMEOUT).until(
+            EC.visibility_of(modal)
+        )
+
+    finally:
+        driver.quit()
 
 
 if __name__ == "__main__":
