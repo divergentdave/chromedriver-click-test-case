@@ -51,12 +51,14 @@ def main():
 
         edit_link = driver.find_element_by_link_text("Edit / Delete")
         div = edit_link.find_element(By.XPATH, "./parent::div")
-        print("onclick: {}".format(div.get_attribute("onclick")))
+        print("onclick attribute: {}".format(div.get_attribute("onclick")))
         edit_link.click()
         time.sleep(1)
         log_entries = driver.get_log("browser")
         for entry in log_entries:
-            print("console.log message: {}".format(entry["message"]))
+            message = entry["message"]
+            if "touch-icon-192x192.png" not in message:
+                print("console.log message: {}".format(message))
         if not log_entries:
             print("no console.log messages")
 
