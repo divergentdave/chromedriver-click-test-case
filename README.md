@@ -1,7 +1,12 @@
 This repository reproduces a suspected bug causing issues with some Selenium
 tests. This test will sporadically succeed or fail, because a click on a link
-with a JS event handler is not triggering the script. Use the commands below to
-download dependencies, build everything, and run the test.
+with a JS event handler is not triggering the script. Use the following
+commands to download dependencies, build everything, and run the test.
+
+```bash
+docker-compose build && docker-compose up
+until docker exec -it test-case-web python test.py; do echo retry; done
+```
 
 This reduced test loads one page, navigates to another by clicking on a link,
 waits for jQuery events to be registered, and clicks on a link with multiple
@@ -17,8 +22,3 @@ The browser can be monitored by connecting a VNC client to localhost:5900. When
 the test fails, it seems that the click from the Selenium script has at least
 caused the link to be focused, as its underline is visible while the wait is
 running.
-
-```bash
-docker-compose build && docker-compose up
-until docker exec -it test-case-web python test.py; do echo retry; done
-```
