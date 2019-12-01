@@ -40,13 +40,13 @@ def process_har(har):
             path_and_query = url_parsed.path
 
         key = (method, path_and_query)
-        if key in mock_map:
-            raise Exception("URL appears more than once: {}".format(url))
 
         response = entry["response"]
         status = response["status"]
         if status == 200:
             content = response["content"]
+            if "text" not in content:
+                continue  # ?
             text = content["text"]
             if "encoding" in content:
                 encoding = content["encoding"]
@@ -88,11 +88,13 @@ class MockRequestHandler(http.server.BaseHTTPRequestHandler):
 
 
 def main():
-    server_address = ('', 8000)
-    server = http.server.HTTPServer(server_address, MockRequestHandler)
     with open("capture.har", "rb") as f:
         har = json.load(f)
-    server.mocks = process_har(har)
+    mocks = process_har(har)
+
+    server_address = ('', 8000)
+    server = http.server.HTTPServer(server_address, MockRequestHandler)
+    server.mocks = mocks
     print("starting server")
     server.serve_forever()
 

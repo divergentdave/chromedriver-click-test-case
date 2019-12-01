@@ -19,9 +19,10 @@ def main():
         desired_capabilities=capabilities
     )
 
+    old_page = driver.find_element_by_tag_name("html")
     driver.get("http://test-case-web:8000/profile/favorites/")
     WebDriverWait(driver, SELENIUM_TIMEOUT).until(
-        EC.presence_of_element_located((By.TAG_NAME, "html"))
+        EC.staleness_of(old_page)
     )
 
     WebDriverWait(driver, SELENIUM_TIMEOUT).until(
