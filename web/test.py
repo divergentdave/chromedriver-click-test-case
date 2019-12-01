@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-SELENIUM_TIMEOUT = 120
+SELENIUM_TIMEOUT = 30
 
 
 def main():
@@ -20,7 +20,20 @@ def main():
     )
 
     old_page = driver.find_element_by_tag_name("html")
-    driver.get("http://test-case-web:8000/profile/favorites/")
+    driver.get("http://test-case-web:8000/?page=1")
+    WebDriverWait(driver, SELENIUM_TIMEOUT).until(
+        EC.staleness_of(old_page)
+    )
+
+    profile_dropdown = driver.find_element_by_css_selector("a.dropdown-toggle")
+    dropdown_menu = driver.find_element_by_css_selector("ul.dropdown-menu")
+    profile_dropdown.click()
+    WebDriverWait(driver, SELENIUM_TIMEOUT).until(
+        EC.visibility_of(dropdown_menu)
+    )
+    favorites = driver.find_element_by_link_text("Favorites")
+    old_page = driver.find_element_by_tag_name("html")
+    favorites.click()
     WebDriverWait(driver, SELENIUM_TIMEOUT).until(
         EC.staleness_of(old_page)
     )
