@@ -19,7 +19,7 @@ def main():
         desired_capabilities=capabilities
     )
 
-    driver.get("http://test-case-web/profile/favorites/")
+    driver.get("http://test-case-web:8000/profile/favorites/")
     WebDriverWait(driver, SELENIUM_TIMEOUT).until(
         EC.presence_of_element_located((By.TAG_NAME, "html"))
     )
