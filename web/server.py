@@ -34,7 +34,10 @@ def process_har(har):
             continue
 
         url_parsed = urllib.parse.urlsplit(url)
-        path_and_query = url_parsed.path + url_parsed.query
+        if url_parsed.query:
+            path_and_query = "{}?{}".format(url_parsed.path, url_parsed.query)
+        else:
+            path_and_query = url_parsed.path
 
         key = (method, path_and_query)
         if key in mock_map:
@@ -44,10 +47,16 @@ def process_har(har):
         status = response["status"]
         if status == 200:
             content = response["content"]
-            if "encoding" in content and content["encoding"] == "base64":
-                mock_map[key] = BodyResponse(base64.b64decode(content["text"]))
+            text = content["text"]
+            if "encoding" in content:
+                encoding = content["encoding"]
+                if encoding == "base64":
+                    mock_map[key] = BodyResponse(base64.b64decode(text))
+                else:
+                    raise Exception("Unsupported encoding: {}"
+                                    .format(encoding))
             else:
-                mock_map[key] = BodyResponse(content["text"].encode("utf-8"))
+                mock_map[key] = BodyResponse(text.encode("utf-8"))
         elif status == 301:
             location = None
             for header in response["headers"]:
