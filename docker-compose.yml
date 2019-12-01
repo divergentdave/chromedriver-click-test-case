@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+    web:
+        container_name: test-case-web
+        build: web
+        ports:
+          - "8000:8000"
+    selenium:
+        container_name: test-case-selenium
+        image: selenium/standalone-chrome-debug:3.141.59-xenon
+        ports:
+          - "4444:4444"
