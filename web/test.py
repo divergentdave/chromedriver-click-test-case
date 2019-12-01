@@ -48,6 +48,8 @@ def main():
         EC.visibility_of(modal)
     )
 
+    driver.quit()
+
 
 if __name__ == "__main__":
     main()
