@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import time
 import subprocess
+import sys
 
 from ruamel.yaml import YAML
 
@@ -19,7 +20,13 @@ def run_trials():
 
 
 def run_with_compose(compose_file="docker-compose.yml"):
-    subprocess.run(["docker-compose", "-f", compose_file, "build"], check=True)
+    sys.stdout.flush()
+    subprocess.run(
+        ["docker-compose", "-f", compose_file, "build"],
+        check=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
     docker = subprocess.Popen(
         ["docker-compose", "-f", compose_file, "up"],
         stdout=subprocess.DEVNULL,
@@ -29,6 +36,7 @@ def run_with_compose(compose_file="docker-compose.yml"):
     success_count, failure_count = run_trials()
     docker.terminate()
     docker.wait()
+    sys.stdout.flush()
     print("{} successes, {} failures".format(success_count, failure_count))
 
 
@@ -47,19 +55,22 @@ def main():
         "3.141.59-palladium",
         "3.141.59-oxygen",
         "3.141.59-neon",
-        "3.141.59-mercury",
-        "3.141.59-lithium",
-        "3.141.59-krypton",
-        "3.141.59-iron",
-        "3.141.59-hafnium",
-        "3.141.59-gold",
-        "3.141.59-fluorine",
-        "3.141.59-europium",
-        "3.141.59-dubnium",
-        "3.141.59-copernicium",
-        "3.141.59-bismuth",
-        "3.141.59-antimony",
+        # "3.141.59-mercury",
+        # "3.141.59-lithium",
+        # "3.141.59-krypton",
+        # "3.141.59-iron",
+        # "3.141.59-hafnium",
+        # "3.141.59-gold",
+        # "3.141.59-fluorine",
+        # "3.141.59-europium",
+        # "3.141.59-dubnium",
+        # "3.141.59-copernicium",
+        # "3.141.59-bismuth",
+        # "3.141.59-antimony",
     ]
+    for version in versions:
+        image = "selenium/standalone-chrome-debug:{}".format(version)
+        subprocess.run(["docker", "pull", image], check=True)
     for version in versions:
         image = "selenium/standalone-chrome-debug:{}".format(version)
         modified_config = original_config.copy()
