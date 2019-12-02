@@ -10,10 +10,7 @@ SELENIUM_TIMEOUT = 30
 
 
 def main():
-    options = webdriver.ChromeOptions()
-    capabilities = options.to_capabilities()
-    capabilities["loggingPrefs"] = {"browser": "INFO"}
-    capabilities["goog:loggingPrefs"] = {"browser": "INFO"}
+    capabilities = {"browserName": "firefox"}
     driver = webdriver.Remote(
         "http://test-case-selenium:4444/wd/hub",
         desired_capabilities=capabilities
@@ -54,13 +51,6 @@ def main():
         print("onclick attribute: {}".format(div.get_attribute("onclick")))
         edit_link.click()
         time.sleep(1)
-        log_entries = driver.get_log("browser")
-        for entry in log_entries:
-            message = entry["message"]
-            if "touch-icon-192x192.png" not in message:
-                print("console.log message: {}".format(message))
-        if not log_entries:
-            print("no console.log messages")
 
         modal = driver.find_element_by_id("modal-save-favorite")
         WebDriverWait(driver, SELENIUM_TIMEOUT).until(
