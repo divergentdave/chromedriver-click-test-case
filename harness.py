@@ -24,8 +24,6 @@ def run_with_compose(compose_file="docker-compose.yml"):
     subprocess.run(
         ["docker-compose", "-f", compose_file, "build"],
         check=True,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
     )
     docker = subprocess.Popen(
         ["docker-compose", "-f", compose_file, "up"],
