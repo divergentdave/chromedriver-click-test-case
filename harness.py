@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import copy
 import time
 import subprocess
 import sys
@@ -49,7 +50,7 @@ def main():
         "78.0.3904.11",
     ]
     for version in versions:
-        modified_config = original_config.copy()
+        modified_config = copy.deepcopy(original_config)
         del modified_config["services"]["selenium"]["image"]
         modified_config["services"]["selenium"]["build"] = {
             "context": "selenium",
