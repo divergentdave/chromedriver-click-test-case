@@ -33,6 +33,14 @@ def run_with_compose(compose_file="docker-compose.yml"):
     )
     time.sleep(30)
     success_count, failure_count = run_trials()
+    subprocess.run([
+        "docker",
+        "exec",
+        "-it",
+        "test-case-selenium",
+        "chromedriver",
+        "--version",
+    ])
     docker.terminate()
     docker.wait()
     sys.stdout.flush()
