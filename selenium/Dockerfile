@@ -1,4 +1,4 @@
-FROM selenium/standalone-chrome-debug:3.141.59-vanadium
+FROM selenium/standalone-chrome-debug:3.141.59-xenon
 
 ARG CHROME_DRIVER_VERSION
 
