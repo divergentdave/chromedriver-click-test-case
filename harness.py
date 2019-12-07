@@ -53,9 +53,8 @@ def main():
         original_config = yaml.load(f)
     new_compose_file_name = "docker-compose.modified.yml"
     versions = [
-        "78.0.3904.105",
-        "78.0.3904.70",
-        "78.0.3904.11",
+        "77.0.3865.40",
+        "77.0.3865.10",
     ]
     for version in versions:
         modified_config = copy.deepcopy(original_config)
