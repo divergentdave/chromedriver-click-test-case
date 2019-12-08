@@ -11,17 +11,14 @@ SELENIUM_TIMEOUT = 10
 
 def main():
     options = webdriver.ChromeOptions()
-    capabilities = options.to_capabilities()
-    capabilities["loggingPrefs"] = {"browser": "INFO"}
-    capabilities["goog:loggingPrefs"] = {"browser": "INFO"}
-    driver = webdriver.Remote(
-        "http://test-case-selenium:4444/wd/hub",
-        desired_capabilities=capabilities
-    )
+    options.add_argument("--no-sandbox")
+    options.set_capability("loggingPrefs", {"browser": "INFO"})
+    options.set_capability("goog:loggingPrefs", {"browser": "INFO"})
+    driver = webdriver.Chrome(chrome_options=options)
 
     try:
         old_page = driver.find_element_by_tag_name("html")
-        driver.get("http://test-case-web:8000/?page=1")
+        driver.get("http://localhost:8000/?page=1")
         WebDriverWait(driver, SELENIUM_TIMEOUT).until(
             EC.staleness_of(old_page)
         )

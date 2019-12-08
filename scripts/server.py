@@ -1,7 +1,11 @@
+#!/usr/bin/env python3
 import base64
 import http.server
 import json
+import os
 import urllib.parse
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 class MockResponse:
@@ -88,7 +92,7 @@ class MockRequestHandler(http.server.BaseHTTPRequestHandler):
 
 
 def main():
-    with open("capture.har", "rb") as f:
+    with open(os.path.join(BASE_DIR, "capture.har"), "rb") as f:
         har = json.load(f)
     mocks = process_har(har)
 
