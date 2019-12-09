@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import re
+import subprocess
 import time
 
 from selenium import webdriver
@@ -10,11 +12,27 @@ SELENIUM_TIMEOUT = 10
 
 
 def main():
+    chrome = subprocess.run(["chrome", "--version"], stdout=subprocess.PIPE)
+    match = re.match(b".* ([0-9]+)(?:\\.[0-9]+){3}", chrome.stdout)
+    chrome_major_version = int(match.group(1))
+    if chrome_major_version == 77:
+        chromedriver_bin = "/opt/selenium/chromedriver-77.0.3865.40"
+    elif chrome_major_version == 78:
+        chromedriver_bin = "/opt/selenium/chromedriver-78.0.3904.105"
+    elif chrome_major_version in (79, 80):
+        chromedriver_bin = "/opt/selenium/chromedriver-79.0.3945.36"
+    else:
+        raise Exception("No Chromedriver installed for Chrome version {}"
+                        .format(chrome_major_version))
+
     options = webdriver.ChromeOptions()
     options.add_argument("--no-sandbox")
     options.set_capability("loggingPrefs", {"browser": "INFO"})
     options.set_capability("goog:loggingPrefs", {"browser": "INFO"})
-    driver = webdriver.Chrome(chrome_options=options)
+    driver = webdriver.Chrome(
+        chrome_options=options,
+        executable_path=chromedriver_bin,
+    )
 
     try:
         old_page = driver.find_element_by_tag_name("html")

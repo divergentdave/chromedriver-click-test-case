@@ -6,8 +6,7 @@ commands to download dependencies, build everything, and run the test.
 ```bash
 docker build -t chrome-bisect-environment .
 docker run --rm -it --name bisect chrome-bisect-environment /usr/bin/supervisord --configuration /etc/supervisord.conf &
-docker exec -it bisect /opt/scripts/bisect-builds.py --archive=linux64 --use-local-cache --verify-range --good=681094 --bad=693954 '--command=/opt/scripts/harness.py'
-TODO: add --not-interactive once the harness is working properly and I can reproduce the issue
+docker exec -it bisect /opt/scripts/bisect-builds.py --archive=linux64 --use-local-cache --verify-range --good=693954 --bad=700000 '--command=/opt/scripts/harness.py' --not-interactive
 ```
 
 This reduced test loads one page, navigates to another by clicking on a link,
