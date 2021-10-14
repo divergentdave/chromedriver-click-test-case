@@ -24,3 +24,15 @@ running `/opt/bin/start-fluxbox.sh` and `/opt/bin/start-vnc.sh` inside the
 container, and connecting a VNC client to localhost:5900. When the test fails,
 it seems that the click from the Selenium script has at least caused the link
 to be focused, as its underline is visible while the wait is running.
+
+## Testing a Single Revision
+Run supervisord in one terminal, run server.py in another terminal, and start another terminal to do the following.
+
+```
+wget http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/<revision>/chrome-linux.zip
+unzip chrome-linux.zip
+rm chrome-linux.zip
+move chrome-linux chrome-linux-<name>
+PATH=$PATH:./chrome-linux-<name> /opt/scripts/test.py
+PATH=$PATH:./chrome-linux-<name> /opt/scripts/harness.py
+```

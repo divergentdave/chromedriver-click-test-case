@@ -19,8 +19,38 @@ def main():
         chromedriver_bin = "/opt/selenium/chromedriver-77.0.3865.40"
     elif chrome_major_version == 78:
         chromedriver_bin = "/opt/selenium/chromedriver-78.0.3904.105"
-    elif chrome_major_version in (79, 80):
+    elif chrome_major_version == 79:
         chromedriver_bin = "/opt/selenium/chromedriver-79.0.3945.36"
+    elif chrome_major_version == 80:
+        chromedriver_bin = "/opt/selenium/chromedriver-80.0.3987.106"
+    elif chrome_major_version in (81, 82):
+        chromedriver_bin = "/opt/selenium/chromedriver-81.0.4044.138"
+    elif chrome_major_version == 83:
+        chromedriver_bin = "/opt/selenium/chromedriver-83.0.4103.39"
+    elif chrome_major_version == 84:
+        chromedriver_bin = "/opt/selenium/chromedriver-84.0.4147.30"
+    elif chrome_major_version == 85:
+        chromedriver_bin = "/opt/selenium/chromedriver-85.0.4183.87"
+    elif chrome_major_version == 86:
+        chromedriver_bin = "/opt/selenium/chromedriver-86.0.4240.22"
+    elif chrome_major_version == 87:
+        chromedriver_bin = "/opt/selenium/chromedriver-87.0.4280.88"
+    elif chrome_major_version == 88:
+        chromedriver_bin = "/opt/selenium/chromedriver-88.0.4324.96"
+    elif chrome_major_version == 89:
+        chromedriver_bin = "/opt/selenium/chromedriver-89.0.4389.23"
+    elif chrome_major_version == 90:
+        chromedriver_bin = "/opt/selenium/chromedriver-90.0.4430.24"
+    elif chrome_major_version == 91:
+        chromedriver_bin = "/opt/selenium/chromedriver-91.0.4472.101"
+    elif chrome_major_version == 92:
+        chromedriver_bin = "/opt/selenium/chromedriver-92.0.4515.107"
+    elif chrome_major_version == 93:
+        chromedriver_bin = "/opt/selenium/chromedriver-93.0.4577.63"
+    elif chrome_major_version == 94:
+        chromedriver_bin = "/opt/selenium/chromedriver-94.0.4606.61"
+    elif chrome_major_version in (95, 96):
+        chromedriver_bin = "/opt/selenium/chromedriver-95.0.4638.17"
     else:
         raise Exception("No Chromedriver installed for Chrome version {}"
                         .format(chrome_major_version))
